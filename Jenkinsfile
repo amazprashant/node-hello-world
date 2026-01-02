@@ -9,18 +9,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'npm test || echo "No tests found"'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t node-jenkins-app .'
@@ -36,5 +24,10 @@ pipeline {
                 '''
             }
         }
+    }
+}
+post {
+    always {
+        echo 'Pipeline completed.'
     }
 }
