@@ -1,30 +1,28 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('Install Dependencies') {
-      steps {
-        sh 'npm ci'
-      }
-    }
+    stages {
 
-    stage('Run Tests') {
-      steps {
-        sh 'npm test'
-      }
-    }
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
 
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t node-ci-cd-demo .'
-      }
-    }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t node-jenkins-app .'
+            }
+        }
 
-    stage('Deploy Locally') {
-      steps {
-        sh 'docker compose down || true'
-        sh 'docker compose up -d --build'
-      }
+        stage('Deploy Locally') {
+            steps {
+                sh '''
+                docker stop node-jenkins-container || true
+                docker rm node-jenkins-container || true
+                docker run -d -p 3000:3000 --name node-jenkins-container node-jenkins-app
+                '''
+            }
+        }
     }
-  }
 }
