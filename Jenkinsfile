@@ -11,7 +11,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t node-jenkins-app .'
+                sh 'docker build -t node-ci-cd-demo .'
             }
         }
 
