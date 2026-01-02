@@ -3,9 +3,9 @@ pipeline {
 
     stages {
 
-        stage('Pull Code') {
+        stage('Checkout Code') {
             steps {
-                echo 'Code pulled from Git automatically'
+                checkout scm
             }
         }
 
